@@ -28,9 +28,9 @@ const ProductCard = ({ product, setProductToEdit, setIsEdit, openEditModal,setPr
       <h3 className="text-lg font-semibold">{txtSlicer(title, 21)}</h3>
       <p className="text-gray-500 break-words">{txtSlicer(description, 100)}</p>
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col mt-4 space-y-2">
         <span className="text-2xl font-semibold text-indigo-600">${price}</span>
-        <Image className={"w-10 h-10 rounded-full"} src={category.imageURL} alt={category.name} />
+        <span className={" rounded-full text-lg font-semibold mr-1  text-indigo-600"}>Category: {category}</span>
       </div>
       <div className="flex items-center justify-between space-x-2 mt-8 ">
         <Button className="bg-violet-700 " onClick={onEdit} >Edit</Button>

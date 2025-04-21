@@ -6,20 +6,18 @@ import Button from "./components/ui/Button";
 import Input from "./components/ui/Input";
 import productValidation from "./validation";
 import ErrorMsg from "./components/ErrorMsg";
-import { v4 as uuid } from "uuid";
+//import { v4 as uuid } from "uuid";
 import SelectMenu from "./components/ui/SelectMenu";
-
-function App() {
+import axios from "axios";
+function VendorDashboard() {
   //      ** State**     //
   const defaultProductObj = {
     title: "",
     description: "",
     imageURL: "",
     price: "",
-    category: {
-      name: "",
-      imageURL: "",
-    },
+    category: "",
+    units: "",
   };
   const defaultErrorObj = {
     title: "",
@@ -28,8 +26,8 @@ function App() {
     price: "",
   };
 
-  const [products, setProducts] = useState(productList);
-  const [product, setProduct] = useState(defaultProductObj);
+  const [products] = useState(productList);
+  const [productAdd, setProductADD] = useState(defaultProductObj);
   const [productToEdit, setProductToEdit] = useState(defaultProductObj);
   //const [productToEditIdx, setProductToEditIdx] = useState(0);
   const [isEdit, setIsEdit] = useState(false);
@@ -37,8 +35,8 @@ function App() {
   const [errors, setErrors] = useState(defaultErrorObj);
   const [isError, setIsError] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
- // console.log(productToEditIdx);
- // console.log(isEdit);
+  // console.log(productToEditIdx);
+  // console.log(isEdit);
   //      ** Handler**     //
 
   function openEditModal() {
@@ -57,16 +55,15 @@ function App() {
 
   const onChangeEventHandler = (event) => {
     const { name, value } = event.target;
-    setProduct({
-      ...product,
+    setProductADD({
+      ...productAdd,
       [name]: value,
+      category: selectedCategory.name,
     });
     if (isError) {
       setErrors({
         ...errors,
-        [name]: productValidation({ ...product, [name]: value })[
-          name
-        ], //updates the error message while typing
+        [name]: productValidation({ ...productAdd, [name]: value })[name], //updates the error message while typing
       });
     } else {
       setErrors({
@@ -85,9 +82,7 @@ function App() {
     if (isError) {
       setErrors({
         ...errors,
-        [name]: productValidation(
-          { ...productToEdit, [name]: value },
-        )[name], //updates the error message while typing
+        [name]: productValidation({ ...productToEdit, [name]: value })[name], //updates the error message while typing
       });
     } else {
       setErrors({
@@ -97,27 +92,44 @@ function App() {
     }
   };
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
-    const errors = productValidation(product);
+    const errors = productValidation(productAdd);
     //** Check if one of the errors has "" && if all the errors have ""**/
     const hasNoError =
       Object.values(errors).some((error) => error === "") &&
       Object.values(errors).every((error) => error === "");
 
     if (hasNoError) {
-      setProducts((prev) => [
-        {
-          ...product,
-          id: uuid(),
-          category: selectedCategory,
-        },
-        ...prev,
-      ]);
-      console.log("productToAdd:", product);
+      try {
+        const token = localStorage.getItem("token");
+
+        const addData = new FormData();
+        addData.append("title", productAdd.title);
+        addData.append("description", productAdd.description);
+        addData.append("imageURL", productAdd.imageURL);
+        addData.append("price", productAdd.price);
+        addData.append("category", productAdd.category);
+        addData.append("units", productAdd.units);
+        const response = await axios.post(
+          "http://localhost:5024/api/Vendor/addproduct",                //**ADD API HERE****PLEEEEEEEEEEEEASe */
+          addData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        alert("Product added successfully!");
+        console.log(response.data);
+      } catch (err) {
+        console.error(err);
+        alert("Failed to add product");
+      }
+      console.log(selectedCategory)
+      console.log("productToAdd:", productAdd);
       console.log("Product submitted");
-      console.log("Products: ", [products]);
-      setProduct(defaultProductObj);
+      setProductADD(defaultProductObj);
       setErrors(defaultErrorObj);
       closeModal();
     } else {
@@ -162,7 +174,7 @@ function App() {
   // };
 
   const onCancelHandler = () => {
-    setProduct(defaultProductObj);
+    setProductADD(defaultProductObj);
     setErrors(defaultErrorObj);
     setIsError(false);
     closeModal();
@@ -204,14 +216,13 @@ function App() {
       <Input
         name={input.name}
         id={input.id}
-        value={product[input.name]}
+        value={productAdd[input.name]}
         onChange={onChangeEventHandler}
       />
       {/** Controlled Component*/}
       <ErrorMsg msg={errors[input.name]} />
     </div>
   ));
-
 
   return (
     <main className="container mx-auto px-20">
@@ -228,21 +239,20 @@ function App() {
         onSubmit={submitHandler}
         title="ADD NEW PRODUCT"
       >
-        {renderFromInputList}
-        <SelectMenu
-          selected={selectedCategory}
-          setSelected={setSelectedCategory}
-        />
-        
-        
-        <div className="flex items-center space-x-2.5 mt-5">
-          <Button onClick={submitHandler} className="bg-violet-700">
-            Submit
-          </Button>
-          <Button onClick={onCancelHandler} className="bg-gray-700">
-            Cancel
-          </Button>
-        </div>
+        <form onSubmit={submitHandler} action="">
+          {renderFromInputList}
+          <SelectMenu
+            selected={selectedCategory}
+            setSelected={setSelectedCategory}
+          />
+
+          <div className="flex items-center space-x-2.5 mt-5">
+            <Button className=" bg-violet-700">Submit</Button>
+            <Button onClick={onCancelHandler} className="bg-gray-700">
+              Cancel
+            </Button>
+          </div>
+        </form>
       </Modal>
       <Modal
         isOpen={isEdit}
@@ -262,7 +272,7 @@ function App() {
           name: "imageURL",
         })}
         {renderEditProduct({ id: "price", label: "Price", name: "price" })}
-        
+
         <div className="flex items-center space-x-2.5 mt-5">
           {/* <Button onClick={submitEditHandler} className="bg-violet-700">
             Edit
@@ -276,4 +286,4 @@ function App() {
   );
 }
 
-export default App;
+export default VendorDashboard;
