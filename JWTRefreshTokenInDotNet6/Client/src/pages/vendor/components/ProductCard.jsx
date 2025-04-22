@@ -3,7 +3,7 @@ import Image from "./Image";
 import Button from "./ui/Button";
 
 const ProductCard = ({ product, setProductToEdit, setIsEdit, openEditModal,setProductToEditIdx, idx }) => {
-  const { title, description, imageURL, price, name, category } = product;
+  const { title, description, imageURL, price, name, category, units, views  } = product;
 
     //      ** Handler**     //
     const onEdit=()=>{
@@ -31,6 +31,8 @@ const ProductCard = ({ product, setProductToEdit, setIsEdit, openEditModal,setPr
       <div className="flex flex-col mt-4 space-y-2">
         <span className="text-2xl font-semibold text-indigo-600">${price}</span>
         <span className={" rounded-full text-lg font-semibold mr-1  text-indigo-600"}>Category: {category}</span>
+        <span className={" rounded-full text-lg font-semibold mr-1  text-indigo-600"}>Units: {units}</span>
+        <span className={" rounded-full text-lg font-semibold mr-1  text-indigo-600"}>Views: {views}</span>
       </div>
       <div className="flex items-center justify-between space-x-2 mt-8 ">
         <Button className="bg-violet-700 " onClick={onEdit} >Edit</Button>

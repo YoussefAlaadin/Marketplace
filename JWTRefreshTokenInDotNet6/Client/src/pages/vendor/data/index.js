@@ -10,6 +10,7 @@ export const productList = [
       "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     price: "350",
     category: "Nike",
+    units: "20",
   },
   {
     id: uuid(),
@@ -20,6 +21,7 @@ export const productList = [
       "https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     price: "500000",
     category: "Cars",
+    units: "20",
   },
   {
     id: uuid(),
@@ -30,6 +32,7 @@ export const productList = [
       "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     price: "120000",
     category: "Cars",
+    units: "20",
   },
   {
     id: uuid(),
@@ -40,6 +43,7 @@ export const productList = [
       "https://plus.unsplash.com/premium_photo-1683736986779-987763ccc545?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHBjfGVufDB8fDB8fHww",
     price: "1500",
     category: "Electronics",
+    units: "20",
   },
   {
     id: uuid(),
@@ -50,6 +54,7 @@ export const productList = [
       "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     price: "350",
     category: "Nike",
+    units: "20",
   },
   {
     id: uuid(),
@@ -60,6 +65,7 @@ export const productList = [
       "https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     price: "500000",
     category: "Cars",
+    units: "20",
   },
   {
     id: uuid(),
@@ -70,6 +76,7 @@ export const productList = [
       "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
     price: "120000",
     category: "Cars",
+    units: "20",
   },
   {
     id: uuid(),
@@ -80,6 +87,7 @@ export const productList = [
       "https://images.unsplash.com/photo-1552831388-6a0b3575b32a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1632&q=80",
     price: "1500",
     category: "Electronics",
+    units: "20",
   },
 ];
 
@@ -106,7 +114,13 @@ export const formInputsList = [
     id: "price",
     name: "price",
     label: "Product Price",
-    type: "text",
+    type: "number",
+  },
+  {
+    id: "units",
+    name: "units",
+    label: "Product Units",
+    type: "number",
   },
 ];
 

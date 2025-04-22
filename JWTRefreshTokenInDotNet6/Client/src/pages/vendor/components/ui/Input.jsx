@@ -1,7 +1,7 @@
 
 function Input({...rest}) {
   return (
-    <input  className="border border-gray-400 rounded" {...rest}/>
+    <input  className="border border-gray-400 rounded" {...rest} />
   )
 }
 
